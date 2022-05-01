@@ -31,6 +31,6 @@ public class CosmosDbListRepository : IListRepository
   public async Task SetAsync(ArmyForgeList list)
   {
     await _container
-      .CreateItemAsync(list, new PartitionKey(list.Id));
+      .UpsertItemAsync(list, new PartitionKey(list.Id));
   }
 }

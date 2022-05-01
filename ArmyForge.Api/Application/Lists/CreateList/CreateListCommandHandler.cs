@@ -17,14 +17,13 @@ public class CreateListCommandHandler : IRequestHandler<CreateListCommand, Creat
   {
     string id = await Nanoid.Nanoid.GenerateAsync(size: 6);
 
-    
     await _listRepository.SetAsync(new ArmyForgeList
     {
       Id = id,
       PasswordHash = command.Password is null
         ? null
         // Low work factor to save resources, doesn't need to be that secure
-        : BCrypt.Net.BCrypt.HashPassword(command.Password, 3),
+        : BCrypt.Net.BCrypt.HashPassword(command.Password, 4),
       SavedList = command.SavedList
     });
 

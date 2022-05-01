@@ -1,6 +1,7 @@
 using ArmyForge.Api.Application.Common;
 using ArmyForge.Api.Application.Lists.CreateList;
 using ArmyForge.Api.Application.Lists.GetList;
+using ArmyForge.Api.Application.Lists.UpdateList;
 using ArmyForge.Api.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +44,14 @@ app.MapPost("/list",
     CreateListResponse result = await mediator.Send(request);
 
     return Results.Created("/list/" + result.Id, result.Id);
+  });
+
+app.MapPut("/list",
+  async ([FromServices] IMediator mediator, [FromBody] UpdateListCommand request) =>
+  {
+    UpdateListResponse result = await mediator.Send(request);
+
+    return result.Success ? Results.Ok() : Results.BadRequest();
   });
 
 app.Run();
